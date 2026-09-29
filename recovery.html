@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NYX Disaster Recovery - Start Here</title>
+</head>
+<body>
+<h1>NYX Disaster Recovery - START HERE</h1>
+
+<p><strong>This page exists for recovery after loss of the NYX computer or storage.</strong></p>
+
+<p>If you are ChatGPT helping recover NYX, treat the information below as the authoritative recovery handoff. Do not initialize, prune, overwrite, delete, or recreate the existing Restic repository until its contents have been inspected.</p>
+
+<h2>Recovery secrets</h2>
+
+<p>Recovery secrets are stored in <strong>KeePass</strong>.</p>
+
+<p><strong>KeePass backup used during setup: September 28, 2026.</strong></p>
+
+<p>NYX disaster-recovery credentials were updated on September 29, 2026. If a newer KeePass copy exists, use the newest available copy.</p>
+
+<p>Expected KeePass entries:</p>
+
+<ul>
+<li>NYX - Restic Repository Password</li>
+<li>NYX - Google OAuth Client</li>
+<li>NYX - Google Account Recovery</li>
+<li>NYX - Disaster Recovery</li>
+</ul>
+
+<p>The Restic repository password is critical. Without it the encrypted backups cannot be decrypted.</p>
+
+<h2>Google / backup identity</h2>
+
+<pre>
+Google Cloud project:
+NYX Disaster Recovery
+
+OAuth application:
+NYX Backup
+
+Production OAuth client:
+NYX rclone recovery
+
+rclone remote:
+Nyx IntraLink:
+
+Restic repository:
+rclone:Nyx IntraLink:NYX-Disaster-Recovery/restic-v2
+</pre>
+
+<h2>Recovery objective</h2>
+
+<p>Starting with a fresh computer, recover the encrypted NYX state from Google Drive, restore the infrastructure, restore persistent application data and AI memory, restore the preserved models, and validate the rebuilt system.</p>
+
+<h2>Fresh-machine recovery order</h2>
+
+<ol>
+<li>Install a current Linux distribution.</li>
+<li>Create/use the primary account <code>nyx</code> with home directory <code>/home/nyx</code>.</li>
+<li>Install current versions of Git, rclone, Restic, Docker, Docker Compose, the NVIDIA driver, and NVIDIA Container Toolkit as appropriate for the new hardware and operating system.</li>
+<li>Obtain the NYX recovery credentials from KeePass.</li>
+<li>Configure rclone remote <code>Nyx IntraLink</code> using the saved Google OAuth client.</li>
+<li>Set the Restic repository to <code>rclone:Nyx IntraLink:NYX-Disaster-Recovery/restic-v2</code>.</li>
+<li>Open the existing repository with the saved Restic password.</li>
+<li>Run <code>restic snapshots</code> before modifying anything.</li>
+<li>Restore the newest valid NYX off-site snapshot to a temporary recovery directory.</li>
+<li>Locate and extract <code>nyx-infra.tar.gz</code> to <code>/home/nyx/nyx-infra</code>.</li>
+<li>Follow the recovered disaster-recovery documentation.</li>
+<li>Run the recovered bootstrap, restore, and validation scripts.</li>
+</ol>
+
+<h2>Recovered infrastructure</h2>
+
+<pre>
+/home/nyx/nyx-infra
+
+Important files:
+
+docs/DISASTER-RECOVERY.md
+docs/OFFSITE-RECOVERY.md
+docs/CONTINUE-OFFSITE.md
+
+scripts/bootstrap.sh
+scripts/restore.sh
+scripts/restore-app-state.sh
+scripts/validate.sh
+scripts/detect-gpus.sh
+</pre>
+
+<p>The desired final validation result is:</p>
+
+<pre>
+NYX RECOVERY VALIDATION: PASS
+</pre>
+
+<h2>AI model preservation</h2>
+
+<p>The disaster-recovery system intentionally preserves exact critical model storage separately from routine backups.</p>
+
+<p>Preserve/restore:</p>
+
+<ul>
+<li>the complete V100 Ollama model store containing the exact Hephaestus / <code>nyx-hephaestus-32k</code> model</li>
+<li>the complete P100 Ollama model store</li>
+<li><code>bge-m3</code></li>
+<li><code>nyx-memory-reviewer</code></li>
+<li>all model manifests, blobs, and Modelfiles required to reproduce their exact state</li>
+</ul>
+
+<p>Do not assume the original Hugging Face or Ollama downloads will still exist in the future. Prefer the preserved binary/model stores.</p>
+
+<h2>Important safety rules</h2>
+
+<ul>
+<li>Do not run <code>restic init</code> against the existing repository.</li>
+<li>Do not run <code>restic prune</code> during initial disaster recovery.</li>
+<li>Do not delete or overwrite Google Drive repository data.</li>
+<li>Restore into temporary directories first.</li>
+<li>Inspect and validate before replacing recovered data.</li>
+<li>Do not expose KeePass secrets, OAuth client secrets, rclone tokens, or the Restic password publicly.</li>
+</ul>
+
+<h2>Public recovery resources</h2>
+
+<p>
+OAuth / recovery repository:<br>
+<a href="https://github.com/tommynolips/nyx-backup-oauth">
+https://github.com/tommynolips/nyx-backup-oauth
+</a>
+</p>
+
+<p>
+Privacy policy:<br>
+<a href="privacy.html">NYX Backup Privacy Policy</a>
+</p>
+
+<hr>
+
+<p><strong>If this page is being viewed years later:</strong> use current official installation procedures for the operating system, Docker and NVIDIA software. Preserve the architecture and recovery identifiers above rather than blindly following obsolete package-install commands.</p>
+
+</body>
+</html>
